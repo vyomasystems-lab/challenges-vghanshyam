@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 
-module ring_oscillator_1(out1,out2,count,count1,count2,en,S,reset);
+module ring_oscillator_1(out1,out2,count,count1,count2,en,S0,S1,reset);
 input en,reset;
-input[1:0]S;
+input S0, S1;
 output out1,out2;
 output [3:0] count;
 output [3:0] count1;
@@ -18,8 +18,8 @@ output [3:0] count2;
   ro6 ghanshyam6(en,y6);
   ro7 ghanshyam7(en,y7);
   ro8 ghanshyam8(en,y8); 
-  mux_4 ghanshu1(out1,S,y1,y2,y3,y4);
-  mux_4_1 ghanshu2(out2,S,y5,y6,y7,y8);
+  mux_4 ghanshu1(out1,S0,S1,y1,y2,y3,y4);
+  mux_4_1 ghanshu2(out2,S0,S1,y5,y6,y7,y8);
   cac2 Gh2(out2,out1,en,reset,count2,count1);
   comp Gh1(count2, count1,count);
        
@@ -138,19 +138,19 @@ output y8;
 endmodule
 
 
-module mux_4(out1,S,y1,y2,y3,y4);
+module mux_4(out1,S0,S1,y1,y2,y3,y4);
 input y1, y2,y3,y4;
-input[1:0]S;
+input S0,S1;
 output out1;
-assign out1 = y1 & ~S[1] & ~S[0] | y3 & ~S[1] & S[0] | y2 & S[1] & ~S[0] | y4 & S[1] & S[0];
+assign out1 = y1 & ~S1 & ~S0 | y3 & ~S1 & S0 | y2 & S1 & ~S0 | y4 & S1 & S0;
 endmodule
  
 
-module mux_4_1(out2,S,y5,y6,y7,y8);
+module mux_4_1(out2,S0,S1,y5,y6,y7,y8);
 input y5, y6,y7,y8;
-input[1:0]S;
+input S0,S1;
 output out2;
-assign out2 = y5 & ~S[1] & ~S[0] | y7 & ~S[1] & S[0] | y6 & S[1] & ~S[0] | y8 & S[1] & S[0];
+assign out2 = y5 & ~S1 & ~S0 | y7 & ~S1 & S0 | y6 & S1 & ~S0 | y8 & S1 & S0;
 endmodule
 
 
@@ -191,5 +191,4 @@ begin
 end				
 
 endmodule
-  
   
