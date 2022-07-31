@@ -24,5 +24,10 @@ async def test_seq_bug1(dut):
     await FallingEdge(dut.clk)
 
     cocotb.log.info('#### CTB: Develop your test here! ######')
+    for i in range(10):
+        val = random.randint(0, 1)
+        dut.inp_bit.value = val  # Assign the random value val to the input port d
+        await FallingEdge(dut.clk)
+        assert dut.seq_seen.value == val, "output seq_seen was incorrect on the {}th cycle".format(i)
     
      
